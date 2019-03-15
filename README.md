@@ -1,10 +1,6 @@
-# express-ts-starter
 
-A starter project for express using typescript with vscode debug wired in. 
-This project is extremly unopinionated and is just enough to get you started the way you think you should.
-No structure, no suggestions, no templating. Those are decisions you have to make 😜!
-
-### How to use?
+# quair
+A full stack scafold of an MBTI questionnaire application.
 
 #### Prerequisites 
 
