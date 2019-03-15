@@ -1,0 +1,45 @@
+{
+  "name": "quair",
+  "version": "0.0.1",
+  "description": "A full stack scafold of an MBTI questionnaire application.",
+  "main": "app.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "tslint": "tslint",
+    "build": "tsc",
+    "start": "node dir/app.js",
+    "dev": "ts-node-dev --transpileOnly -- ./src/app.ts",
+    "debug": "ts-node-dev --transpileOnly --inspect -- ./src/app.ts"
+  },
+  "keywords": [
+    "express",
+    "typescript",
+    "tslint"
+  ],
+  "author": "Michael Cabana <mikeycabana@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/cors": "^2.8.4",
+    "@types/dotenv": "^6.1.0",
+    "@types/express": "^4.16.1",
+    "@types/express-handlebars": "0.0.30",
+    "@types/helmet": "0.0.43",
+    "@types/mongoose": "^5.3.22",
+    "@types/morgan": "^1.7.35",
+    "@types/node": "^11.11.1",
+    "ts-node": "^8.0.3",
+    "ts-node-dev": "^1.0.0-pre.32",
+    "tslint": "^5.13.1",
+    "typescript": "^3.3.3333"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.2",
+    "helmet": "^3.16.0",
+    "mongoose": "^5.4.19",
+    "morgan": "^1.9.1"
+  }
+}

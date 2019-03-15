@@ -1,0 +1,36 @@
+<h1>Answer all the questions</h1>
+
+<form action="/test" method="post">
+
+    <input type="text" value="{{id}}" name="userId" style="display: none" >
+
+    {{#each questions}}
+    <h3>{{this.q}}</h3>
+    <div>
+        <fieldset id="{{this._id}}">
+
+            <label for="{{this._id}}-1">even less</label>
+            <input type="radio" name="{{this._id}}" id="{{this._id}}-1" autocomplete="off" value="0.3" required>
+
+            <label for="{{this._id}}-2">less</label>
+            <input type="radio" name="{{this._id}}" id="{{this._id}}-2" autocomplete="off" value="0.6" required>
+
+            <label for="{{this._id}}-3">don't know</label>
+            <input type="radio" name="{{this._id}}" id="{{this._id}}-3" autocomplete="off" value="1" required>
+
+            <label for="{{this._id}}-4">more</label>
+            <input type="radio" name="{{this._id}}" id="{{this._id}}-4" autocomplete="off" value="1.3" required>
+
+            <label for="{{this._id}}-5">even more</label>
+            <input type="radio" name="{{this._id}}" id="{{this._id}}-5" autocomplete="off" value="1.6" required>
+
+        </fieldset>
+
+    </div>
+    {{/each}}
+
+    <div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
