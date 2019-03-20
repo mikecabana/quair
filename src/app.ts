@@ -154,7 +154,7 @@ app.get('/leaderboard', async (req, res) => {
 });
 
 app.use('/users', userRouter);
-app.use('/ ', questionRouter);
+app.use('/questions', questionRouter);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);
