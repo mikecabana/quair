@@ -1,6 +1,6 @@
 import express from 'express';
 import { HttpStatus } from '../helpers/http-status';
-import { Question } from '../models/questions';
+import { Question, IAnswers, Answer } from '../models/questions';
 
 export const questionRouter = express.Router();
 
@@ -42,16 +42,23 @@ questionRouter.get('/:id', async (req, res) => {
 
 questionRouter.post('/', async (req, res) => {
 
-    const { q, value } = req.body;
+    const { q, value, answers } = req.body;
 
-    if (!q && !value) {
-        return res.status(HttpStatus.BAD_REQUEST).json('missing question or value');
+    if (!q && !value && !answers) {
+        return res.status(HttpStatus.BAD_REQUEST).json('missing question or value or answers');
     }
 
     const question = new Question({
         q,
         value,
     });
+
+    question.answers = [];
+
+    answers.forEach((answer: { answer: string, isCorrect: boolean }) => {
+        question.answers.push(new Answer(answer));
+    });
+
 
     try {
         await question.save();

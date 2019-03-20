@@ -4,14 +4,14 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import exphbs from 'express-handlebars'
+import exphbs from 'express-handlebars';
 
 import { connectToDb } from './data/db';
 import { userRouter } from './routes/users';
 import { questionRouter } from './routes/questions';
 import { seedDb } from './data/seed';
-import { User } from './models/user';
 import { HttpStatus } from './helpers/http-status';
+import { User } from './models/user';
 import { Question } from './models/questions';
 
 dotenv.config();
@@ -28,7 +28,7 @@ app.set('views', 'src/views');
 app.engine('handlebars', exphbs({
     defaultLayout: 'main',
     layoutsDir: 'src/views/layouts',
-    partialsDir: 'src/views/partials'
+    partialsDir: 'src/views/partials',
 }));
 app.set('view engine', 'handlebars');
 
@@ -72,9 +72,9 @@ app.get('/test', async (req, res) => {
     const questions = await Question.find();
 
     res.render('test', {
+        id,
         questions,
-        id
-    })
+    });
 });
 
 app.post('/test', async (req, res) => {
@@ -82,7 +82,7 @@ app.post('/test', async (req, res) => {
 
     const userId = body.userId;
 
-    let scores: number[] = [];
+    const scores: number[] = [];
     const keys = Object.keys(body);
     keys.splice(keys.indexOf('userId'), 1);
 
@@ -93,7 +93,7 @@ app.post('/test', async (req, res) => {
             question = await Question.findById(key).exec();
         } catch (err) {
             console.error(err);
-            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json('error getting questions for calculation')
+            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json('error getting questions for calculation');
         }
 
         if (question) {
@@ -129,7 +129,7 @@ app.post('/test', async (req, res) => {
 
     res.render('score', {
         average,
-        user
+        user,
     });
 });
 
@@ -140,7 +140,7 @@ app.get('/leaderboard', async (req, res) => {
         users = await User.where('score').ne(null).sort('-score');
     } catch (err) {
         console.error(err);
-        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json('error getting users for leaderboard')
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json('error getting users for leaderboard');
     }
 
     if (!users || userRouter.length === 0) {
@@ -148,13 +148,13 @@ app.get('/leaderboard', async (req, res) => {
     }
 
     res.render('leaderboard', {
-        users
-    })
+        users,
+    });
 
 });
 
 app.use('/users', userRouter);
-app.use('/questions', questionRouter);
+app.use('/ ', questionRouter);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);

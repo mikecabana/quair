@@ -10,6 +10,7 @@
             "single",
             "avoid-escape"
         ],
+        "ordered-imports": false,
         "no-console": false,
         "no-consecutive-blank-lines": false,
         "eofline": false,
