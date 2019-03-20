@@ -86,21 +86,21 @@ app.post('/test', async (req, res) => {
     const keys = Object.keys(body);
     keys.splice(keys.indexOf('userId'), 1);
 
-
-    for await (const key of keys) {
-        let question;
-        try {
-            question = await Question.findById(key).exec();
-        } catch (err) {
-            console.error(err);
-            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json('error getting questions for calculation');
-        }
-
-        if (question) {
-            const score = body[key];
-            scores.push(question.value * score);
-        }
+    let questions;
+    try {
+        questions = await Question.where('_id').in(keys);
+    } catch (err) {
+        console.error(err);
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json('error getting questions for calculation');
     }
+
+    questions.forEach((q: any) => {
+        if (q) {
+            const score = body[q._id];
+            scores.push(q.value * score);
+        }
+    });
+
 
     if (scores.length === 0) {
         return res.redirect('/');
