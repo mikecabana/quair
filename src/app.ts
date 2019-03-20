@@ -4,7 +4,7 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import exphbs from 'express-handlebars'
+import exphbs from 'express-handlebars';
 
 import { connectToDb } from './data/db';
 import { userRouter } from './routes/users';
@@ -28,7 +28,7 @@ app.set('views', 'src/views');
 app.engine('handlebars', exphbs({
     defaultLayout: 'main',
     layoutsDir: 'src/views/layouts',
-    partialsDir: 'src/views/partials'
+    partialsDir: 'src/views/partials',
 }));
 app.set('view engine', 'handlebars');
 
@@ -72,9 +72,9 @@ app.get('/test', async (req, res) => {
     const questions = await Question.find();
 
     res.render('test', {
+        id,
         questions,
-        id
-    })
+    });
 });
 
 app.post('/test', async (req, res) => {
@@ -82,25 +82,25 @@ app.post('/test', async (req, res) => {
 
     const userId = body.userId;
 
-    let scores: number[] = [];
+    const scores: number[] = [];
     const keys = Object.keys(body);
     keys.splice(keys.indexOf('userId'), 1);
 
-
-    for await (const key of keys) {
-        let question;
-        try {
-            question = await Question.findById(key).exec();
-        } catch (err) {
-            console.error(err);
-            return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json('error getting questions for calculation')
-        }
-
-        if (question) {
-            const score = body[key];
-            scores.push(question.value * score);
-        }
+    let questions;
+    try {
+        questions = await Question.where('_id').in(keys);
+    } catch (err) {
+        console.error(err);
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json('error getting questions for calculation');
     }
+
+    questions.forEach((q: any) => {
+        if (q) {
+            const score = body[q._id];
+            scores.push(q.value * score);
+        }
+    });
+
 
     if (scores.length === 0) {
         return res.redirect('/');
@@ -129,7 +129,7 @@ app.post('/test', async (req, res) => {
 
     res.render('score', {
         average,
-        user
+        user,
     });
 });
 
@@ -140,7 +140,7 @@ app.get('/leaderboard', async (req, res) => {
         users = await User.where('score').ne(null).sort('-score');
     } catch (err) {
         console.error(err);
-        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json('error getting users for leaderboard')
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json('error getting users for leaderboard');
     }
 
     if (!users || userRouter.length === 0) {
@@ -148,8 +148,8 @@ app.get('/leaderboard', async (req, res) => {
     }
 
     res.render('leaderboard', {
-        users
-    })
+        users,
+    });
 
 });
 
